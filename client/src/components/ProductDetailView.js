@@ -13,7 +13,7 @@ const ProductDetailView = () => {
   let history = useHistory();
 
   useEffect(() => {
-    console.log("AppCtx",appCtx.appState.product)
+    console.log("AppCtx", appCtx.appState.product)
     setFormData(appCtx.appState.product)
 
     const getProductDetail = async () => {
@@ -67,7 +67,7 @@ const ProductDetailView = () => {
             </Form.Group>
           </Row>
 
-          <Carousel>
+          <Carousel className="d-block w-75 h-75">
             {formData.images.map((image) => {
               return (
                 <Carousel.Item key={image.url}>
@@ -95,12 +95,20 @@ const ProductDetailView = () => {
                 onChange={handleInputChange} />
             </Form.Group>
 
-            <Form.Group as={Col} className="mb-3" controlId="isActive">
-              <Form.Check type="checkbox"
-                name="is_active"
-                value={formData.is_active}
-                label="Is Active?"
-                onChange={handleInputChange} />
+            <Form.Group as={Col} className="mb-3" controlId="qty">
+              <Form.Label>Quantity</Form.Label>
+              <Form.Control
+                as="select"
+                name="category"
+                value={1}
+                onChange={handleInputChange}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </Form.Control>
             </Form.Group>
           </Row>
 
@@ -144,24 +152,6 @@ const ProductDetailView = () => {
                 placeholder="987-123-456"
                 value={formData.sku}
                 onChange={handleInputChange} />
-            </Form.Group>
-          </Row>
-
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="category">
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control
-                as="select"
-                name="category"
-                value={1}
-                onChange={handleInputChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </Form.Control>
             </Form.Group>
           </Row>
 
