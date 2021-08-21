@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllMatchups } from '../utils/api';
+import { getAllProducts } from '../utils/product-api';
 
 const Home = () => {
-  const [matchupList, setMatchupList] = useState([]);
+  const [productList, setProductList] = useState([]);
 
   useEffect(() => {
-    const getMatchupList = async () => {
+    const getProductList = async () => {
       try {
-        const res = await getAllMatchups();
+        const res = await getAllProducts();
         if (!res.ok) {
-          throw new Error('No list of matchups');
+          throw new Error('No Product List returned');
         }
-        const matchupList = await res.json();
-        setMatchupList(matchupList);
+        const productList = await res.json();
+        setProductList(productList);
       } catch (err) {
         console.error(err);
       }
     };
-    getMatchupList();
+    getProductList();
   }, []);
 
   return (
     <div className="card bg-white card-rounded w-50">
       <div className="card-header bg-dark text-center">
-        <h1>Welcome to Tech Matchup!</h1>
+        <h1>Welcome to David OBrien's Outdoor Adventure Store!</h1>
       </div>
       <div className="card-body m-5">
-        <h2>Here is a list of matchups you can vote on:</h2>
+        <h2>Here is a list of products you can view:</h2>
         <ul className="square">
-          {matchupList.map((matchup) => {
+          {productList.map((product) => {
             return (
-              <li key={matchup._id}>
-                <Link to={{ pathname: `/matchup/${matchup._id}` }}>
-                  {matchup.tech1} vs. {matchup.tech2}
+              <li key={product._id}>
+                <Link to={{ pathname: `/product/${product._id}` }}>
+                  Product: {product.name}, Category: {product.category}
                 </Link>
               </li>
             );
@@ -41,9 +41,9 @@ const Home = () => {
         </ul>
       </div>
       <div className="card-footer text-center m-3">
-        <h2>Ready to create a new matchup?</h2>
-        <Link to="/matchup">
-          <button className="btn btn-lg btn-danger">Create Matchup!</button>
+        <h2>Ready to create a new product?</h2>
+        <Link to="/createproduct">
+          <button className="btn btn-lg btn-danger">Create Product!</button>
         </Link>
       </div>
     </div>

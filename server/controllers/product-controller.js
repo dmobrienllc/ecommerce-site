@@ -1,7 +1,15 @@
-const {Product} = require('../models');
+const { Product } = require('../models');
 
 module.exports = {
 
+    async getAllProducts(req, res) {
+        const products = await Product.find({}).lean();
+
+        if (!products) {
+            return res.status(400).json({ message: 'Unable to retrieve products'});
+        }
+        res.status(200).json(products);
+    },
     async getProductById(req, res) {
         console.log("product-controller getProductById", req.params.id);
         const product = await Product.findById({ "_id": req.params.id }).lean();
@@ -11,7 +19,7 @@ module.exports = {
         }
         res.status(200).json(product);
     },
-    async getProduct(req, res) {
+    async getProductByCode(req, res) {
         console.log("product-controller getProduct", req.body.code);
 
         const product = await Product.findOne({ "code": req.body.code }).lean();
@@ -22,8 +30,8 @@ module.exports = {
         res.status(200).json(product);
     },
     async getProductsByCategory(req, res) {
-        console.log("product-controller getProductsByCategory", req.body.category);
-        const products = await Product.find({ "category": req.body.category }).lean();
+        console.log("product-controller getProductsByCategory", req.params.cat);
+        const products = await Product.find({ "category": req.params.cat }).lean();
 
         if (!products) {
             return res.status(400).json({ message: `Unable to find products for category ${req.body.category}` });
@@ -32,6 +40,7 @@ module.exports = {
     },
     async createProduct(req, res) {
         console.log("product-controller createProduct");
+        console.log(req.body);
         const product = await Product.create(req.body);
 
         if (!product) {
@@ -41,9 +50,9 @@ module.exports = {
     },
     async updateProduct(req, res) {
         console.log("product-controller updateProduct", req.params.id);
-        const product = await Product.findOneAndUpdate({ "_id": req.params.id }, 
-                                                        req.body,
-                                                        { new: true });
+        const product = await Product.findOneAndUpdate({ "_id": req.params.id },
+            req.body,
+            { new: true });
 
         if (!product) {
             return res.status(400).json({ message: `Possible error occurred updating product id: ${req.params.id}` });

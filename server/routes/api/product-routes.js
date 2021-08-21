@@ -1,18 +1,19 @@
 const router = require('express').Router();
 
 const {
+    getAllProducts,
     getProductById,
-    getProduct,
+    getProductByCode,
     getProductsByCategory,
     createProduct,
     updateProduct,
     deleteProduct
   } = require('../../controllers/product-controller');
   
-  //router.route('/').get(getAllProducts); NOT SUPPORTED
-  router.route('/').get(getProduct);
+  router.route('/').get(getAllProducts); 
   router.route('/:id').get(getProductById);
-  router.route('/category').get(getProductsByCategory);
+  router.route('/code').get(getProductByCode);
+  router.route('/category/:cat').get(getProductsByCategory);
   router.route('/').post(createProduct);
   router.route('/:id').put(updateProduct);
   router.route('/:id').delete(deleteProduct);
