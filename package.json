@@ -1,7 +1,7 @@
 {
-  "name": "tech-matchup-app",
+  "name": "ecommerce-site",
   "version": "1.0.0",
-  "description": "",
+  "description": "ecommerce-site providing admin and consumer portal for outdoor adventure gear.",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",

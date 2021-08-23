@@ -8,9 +8,15 @@
 5. [FAQs](#faqs)
 ### General Info
 
-React based ecommerce application.
-
-### David OBrien's React Portfolio
+React based ecommerce application. Notable features include:
+  * Token based login/authentication
+  * Admin page allows admins to create, update, and delete products
+  * Admin page also allows admins to mark products as 'Deal of the Week' to be presented
+    in special section on opening page.
+  * Ecommerce portal presents deals of the week and links to product categories
+  * Category page presents products based on category.
+  * Users may click on a product to view product detail and leave reviews.
+  * Users can choose to add items to shopping cart.
 
 ### Screenshot
 ![Image text](./public/images/finished-screenshot.png)
