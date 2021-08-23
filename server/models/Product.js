@@ -45,6 +45,10 @@ const ProductSchema = new Schema({
         type: Boolean,
         default: true
     },
+    is_deal: {
+        type: Boolean,
+        default: false
+    },
     created_at: {
         type: Date,
         default: Date.now
@@ -53,15 +57,15 @@ const ProductSchema = new Schema({
         {
             descriptor:{
                 type: String,
-                required: true
+                required: false
             },
             unit:{
                 type:String,
-                required:true
+                required:false
             },
             unit_type:{
                 type:String,
-                required:true
+                required:false
             },
             metadata:{
                 type:String,
@@ -69,7 +73,7 @@ const ProductSchema = new Schema({
             },
             cnt:{
                 type:Number,
-                required:true,
+                required:false,
                 default:0
             }
         }
@@ -78,17 +82,32 @@ const ProductSchema = new Schema({
         {
           url: {
             type: String,
-            required: true
+            required: false
           },
           alt_text: {
             type: String,
-            required: true
+            required: false
           }
+    }],
+    reviews: [{
+        user: {
+            type: String,
+            required: false
+        },
+        num_stars:{
+            type: Number,
+            required: false
+        },
+        text: {
+            type: String,
+            required: false
+        }
     }]
 });
 
 const Product = model("Product", ProductSchema);
 module.exports = Product;
+
 
 
 

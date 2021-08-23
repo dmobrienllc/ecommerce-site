@@ -1,9 +1,29 @@
 const User = require('../models/User');
 
 module.exports = {
+  async getAllUsers(req, res) {
+
+    const users = await User.findById({}).lean();
+
+      return res.status(200).json(users);
+
+  },
   async getUserById(req, res) {
 
     const user = await User.findById({ "_id": req.params.id }).lean();
+
+    req.session.save(() => {
+      req.session.user_id = user._id;
+      req.session.user_name = user.user_name;
+      req.session.is_admin = user.role === "Admin" ? true : false;
+      req.session.logged_in = true;
+
+      return res.status(200).json(user);
+    });
+  },
+  async getUserByEmail(req, res) {
+
+    const user = await User.findOne({ "email": req.params.addr }).lean();
 
     req.session.save(() => {
       req.session.user_id = user._id;
@@ -15,17 +35,18 @@ module.exports = {
     });
   },
   async createUser(req, res) {
+    console.log("In usercontroller.createUser ", req.body)
     let user = await User.findOne({ "email": req.body.email });
 
     if (!user) {
-      response = await User.create(req.body);
+      user = await User.create(req.body);
     }
 
     if (!user) {
-      res.status(400).json({ message: 'Unable to create user' });
+      return res.status(400).json({ message: 'Unable to create user' });
     }
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   },
   async updateUser(req, res) {
       const user = await User.findOneAndUpdate({ "_id": req.params.id },

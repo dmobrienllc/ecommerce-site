@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import CardItem from './CardItem';
-import { useHistory, useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import { getProductsByCategory } from '../utils/product-api';
+import styles from "../components/style/styles";
 
 const ProductCategoryView = () => {
     const [renderReady, setRenderReady] = useState(false)
     const [productList, setProductList] = useState([])
     const { category } = useParams();
-    let history = useHistory();
 
     useEffect(() => {
         const getProductList = async () => {
@@ -29,26 +29,9 @@ const ProductCategoryView = () => {
 
     }, []);
 
-    const styles = {
-        container: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            marginLeft: 2,
-            marginRight: 2
-        },
-        row: {
-            marginLeft: 0,
-            marginRight: 0
-        },
-        col: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            marginLeft: 2,
-            marginRight: 2
-        }
-    };
-
     return (
+        <>
+        {renderReady === true && (
         <Container fluid="md" style={styles.container}>
             <div><Card>
                 <Card.Header><h1>Category: {category}</h1></Card.Header>
@@ -75,7 +58,8 @@ const ProductCategoryView = () => {
                 })}
             </Row>
         </Container>
-
+        )}
+        </>
     );
 };
 

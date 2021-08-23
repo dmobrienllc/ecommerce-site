@@ -10,15 +10,17 @@ const UserSchema = new Schema({
     },
     first_name: {
         type: String,
-        trim: true
+        trim: true,
+        required: "First Name is Required"
     },
-    middle_name: {
+    middle_init: {
         type: String,
         trim: true
     },
     last_name: {
         type: String,
-        trim: true
+        trim: true,
+        required: "Last Name is Required"
     },
     password: {
         type: String,

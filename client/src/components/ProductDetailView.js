@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Col, Row, Button, Form, Carousel } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 import { getProductById } from '../utils/product-api';
-import { useAppContext } from "../utils/AppContext"
+import { useAppContext } from "../utils/AppContext";
+import styles from "../components/style/styles";
 
 const ProductDetailView = () => {
   const [renderReady, setRenderReady] = useState(false)
@@ -53,9 +54,9 @@ const ProductDetailView = () => {
 
   return (<>
     {renderReady === true && (
-      <Container>
+      <Container fluid="md" style={styles.container}>
         <Form onSubmit={handleFormSubmit}>
-          <Row className="mb-3">
+          <Row className="mb-3" style={styles.row}>
             <Form.Group className="mb-3" controlId="productName">
               <Form.Label>Product Name</Form.Label>
               <Form.Control
@@ -66,24 +67,33 @@ const ProductDetailView = () => {
                 onChange={handleInputChange} />
             </Form.Group>
           </Row>
+          <Row className="mb-3" style={styles.row}>
+            <Col style={styles.col}>
+              <Carousel className="d-block w-75 h-100">
+                {formData.images.map((image) => {
+                  return (
+                    <Carousel.Item key={image.url}>
+                      <img
+                        className="d-block w-25 h-25"
+                        src={process.env.PUBLIC_URL + `${image.url}`}
+                        alt={image.alt_text}
+                      />
+                      <Carousel.Caption>
+                        <h3>{image.alt_text}</h3>
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  );
+                })}
+              </Carousel>
+            </Col>
+          </Row>
 
-          <Carousel className="d-block w-75 h-75">
-            {formData.images.map((image) => {
-              return (
-                <Carousel.Item key={image.url}>
-                  <img
-                    className="d-block w-25 h-25"
-                    src={process.env.PUBLIC_URL + `${image.url}`}
-                    alt={image.alt_text}
-                  />
-                  <Carousel.Caption>
-                    <h3>{image.alt_text}</h3>
-                  </Carousel.Caption>
-                </Carousel.Item>
-              );
-            })}
-          </Carousel>
-
+          <Row className="mb-3" style={styles.row}>
+            <Col style={styles.col}>
+              <p>{formData.description}</p>
+            </Col>
+          </Row>
+          
           <Row className="mb-3">
             <Form.Group as={Col} className="mb-3" controlId="price">
               <Form.Label>Retail Price</Form.Label>
@@ -112,7 +122,7 @@ const ProductDetailView = () => {
             </Form.Group>
           </Row>
 
-          <Row className="mb-3">
+          {/* <Row className="mb-3">
             <Form.Group className="mb-3" controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control name="description"
@@ -121,7 +131,7 @@ const ProductDetailView = () => {
                 value={formData.description}
                 onChange={handleInputChange} />
             </Form.Group>
-          </Row>
+          </Row> */}
 
           <Row className="mb-3">
             <Form.Group className="mb-3" controlId="longDescription">

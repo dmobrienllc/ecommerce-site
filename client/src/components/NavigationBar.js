@@ -1,12 +1,16 @@
 import { React } from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useAppContext } from "../utils/AppContext"
+
 function NavigationBar() {
+    const appCtx = useAppContext()
+
     return (
 
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#home">OBrien's Adventure Store</Navbar.Brand>
+                {/* <Navbar.Brand href="#home">David OBrien's Adventure Store</Navbar.Brand> */}
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -47,6 +51,9 @@ function NavigationBar() {
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
+                {appCtx.appState.user.first_name  && (
+                    <h3>Welcome {appCtx.appState.user.first_name}!</h3>
+                )}
             </Container>
         </Navbar>
     );

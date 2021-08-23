@@ -16,6 +16,15 @@ export const getAllProducts = () => {
     });
   };
 
+  export const getProductByCode = (code) => {
+    return fetch(`/api/products/code/${code}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+  };
+
   export const createProduct = (productData) => {
     return fetch('/api/products', {
       method: 'POST',

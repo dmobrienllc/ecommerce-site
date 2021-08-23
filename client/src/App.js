@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import NavigationBar from './components/NavigationBar';
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 import { useState, useEffect } from "react"
+import defaultAppState from './state/app-state-default';
+import background from "./images/Rainier.jpeg";
 
 const App = () => {
 
@@ -19,27 +21,6 @@ const App = () => {
   //use this to check for logged in user or if the user has an
   //active shopping cart.
   const setDefaultAppState = async () => {
-    let defaultAppState = {
-      user: { id: "611db6da37e7309c6800f6b6", name: "David OBrien", role: "Admin" },
-      shoppingCart: { products: [], total: 300.00 },
-      product: {name : '',
-                price : 0.00, 
-                is_active : true, 
-                description : '',
-                description_long : '',
-                code :'',
-                sku : '',
-                category : '',
-                sub_category : '',
-                inventory : [{cnt : 0,
-                              descriptor : 'default',
-                              unit : 0,
-                              unit_type : 'default'}],
-                images : [{
-                        url : 'default.jpb',
-                        alt_text :'default'}]
-      }
-    }
     setAppState(defaultAppState)
     setRenderReady(true)
   }
@@ -55,7 +36,7 @@ const App = () => {
         <AppContext.Provider value={{ appState, setAppState }}>
           <Router>
             <NavigationBar />
-            <div className="flex-column justify-center align-center min-100-vh bg-primary">
+            <div className="flex-column justify-center align-center min-100-vh bg-light" style={{ backgroundImage: `url(${background})` }}>
               <Route exact path="/" component={Home} />
               <Route exact path="/category/:category" component={ProductCategoryView} />
               <Route exact path="/product/:productId" component={ProductDetailView} />

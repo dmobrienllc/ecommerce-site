@@ -20,12 +20,12 @@ module.exports = {
         res.status(200).json(product);
     },
     async getProductByCode(req, res) {
-        console.log("product-controller getProduct", req.body.code);
+        console.log("product-controller getProductByCode", req.params.code);
 
-        const product = await Product.findOne({ "code": req.body.code }).lean();
+        const product = await Product.findOne({ "code": req.params.code }).lean();
 
         if (!product) {
-            return res.status(400).json({ message: `Unable to find products for code ${req.body.code}` });
+            return res.status(400).json({ message: `Unable to find products for code ${req.params.code}` });
         }
         res.status(200).json(product);
     },
