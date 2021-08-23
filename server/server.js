@@ -9,11 +9,6 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// if we're in production, serve client/build as static assets
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-}
-
 console.log("MongoURL",db._connectionString);
 
 const sess = {
@@ -28,8 +23,15 @@ const sess = {
 };
 
 app.use(session(sess));
-
 app.use(routes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 const PORT = process.env.PORT || 3001;
 db.once('open', () => {
