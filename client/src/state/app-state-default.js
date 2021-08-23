@@ -1,6 +1,6 @@
 const defaultAppState = {
     user: {   
-      user_name: '', 
+              user_name: '', 
               first_name:'',
               middle_init:'',
               last_name:'',

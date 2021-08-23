@@ -30,7 +30,7 @@ function NavigationBar() {
                         <NavDropdown title="Camping" id="collapsible-nav-dropdown">
                             <NavDropdown.Item href="/category/Sleeping Bags">Sleeping Bags</NavDropdown.Item>
                             <NavDropdown.Item href="/category/Tents">Tents</NavDropdown.Item>
-                            <NavDropdown.Item href="/category/Cooking">Cookstoves</NavDropdown.Item>
+                            <NavDropdown.Item href="/category/Camping">Cookstoves</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="/category/Navigation">GPS/Compass</NavDropdown.Item>
                         </NavDropdown>
@@ -39,19 +39,21 @@ function NavigationBar() {
                             <NavDropdown.Item href="/category/Boots">Shoes/Boots</NavDropdown.Item>
                             <NavDropdown.Item href="/category/Climbing">Ice Climbing</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/category/Protection">Protection</NavDropdown.Item>
+                            <NavDropdown.Item href="/category/Climbing">Protection</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Nav>
+                    {appCtx && appCtx.appState.user.role === "Admin" && (
                         <LinkContainer to="/admin">
                             <Nav.Link>Product Admin</Nav.Link>
                         </LinkContainer>
+                    )}
                         <LinkContainer to="/login">
                             <Nav.Link>Sign In</Nav.Link>
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
-                {appCtx.appState.user.first_name  && (
+                {appCtx && appCtx.appState.user.first_name  && (
                     <h3>Welcome {appCtx.appState.user.first_name}!</h3>
                 )}
             </Container>

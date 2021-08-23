@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react"
 import { useAppContext } from "../utils/AppContext"
 import { Container, Col, Row, Button, Form } from 'react-bootstrap';
-import { createProduct } from '../utils/product-api';
+import { createProduct,getProductByCode } from '../utils/product-api';
 import styles from "../components/style/styles";
+import defaultAppState from '../state/app-state-default';
 
 const ProductCreateEdit = () => {
   const appCtx = useAppContext()
@@ -11,6 +12,8 @@ const ProductCreateEdit = () => {
   //should be set by the app context
   const [formData, setFormData] = useState([])
   const [renderReady, setRenderReady] = useState(false)
+  const [newProductName, setNewProductName] = useState('')
+  const [productCode,setProductCode] = useState('')
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -32,14 +35,41 @@ const ProductCreateEdit = () => {
       }
 
       const product = await res.json();
-      console.log(product);
+
+      setFormData({ ...formData, product: defaultAppState.product })
     } catch (err) {
       console.error(err);
     }
   }
 
+  //Search Form
+  const handleSearchFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await getProductByCode(productCode);
+
+      if (!res.ok) {
+        throw new Error('Error: ProductCreateEdit.getProductByCode ', res);
+      }
+
+      const productToEdit = await res.json();
+      console.log("Product to Edit: ",productToEdit)
+      setFormData(productToEdit)
+
+      setProductCode('')
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const handleSearchInputChange = async (e) => {
+      console.log("Target ",e.target.name, " ", e.target.value)
+      setProductCode(e.target.value)
+  }
+
   useEffect(() => {
-    console.log("In ProductCreateEdit.useEffect, appCtx",appCtx.appState.product)
+    console.log("In ProductCreateEdit.useEffect, appCtx", appCtx.appState.product)
     setFormData(appCtx.appState.product)
     setRenderReady(true)
   }, [])
@@ -48,6 +78,30 @@ const ProductCreateEdit = () => {
     <>
       {renderReady === true && (
         <Container style={styles.container}>
+
+          <Row className="mb-3" style={styles.row}>
+            <Col className="mb-3" style={styles.col}>
+              <h2>Create or Edit Product</h2>
+              <p>Enter Product Code:</p>
+            </Col>
+            <Col>
+              <Form onSubmit={handleSearchFormSubmit}>
+                <Form.Group size="lg" controlId="email">
+                  <Form.Control
+                    name="code"
+                    type="text"
+                    placeholder="123-456-789"
+                    value={productCode}
+                    onChange={handleSearchInputChange} />
+                </Form.Group>
+
+                <Button block size="md" type="submit">
+                  Search By Code To Edit Product
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+
           <Form onSubmit={handleFormSubmit}>
             <Row className="mb-3" style={styles.row}>
               <Col className="mb-3" style={styles.col}>
@@ -83,6 +137,18 @@ const ProductCreateEdit = () => {
                     placeholder="Long Description"
                     style={{ height: '100px' }}
                     value={formData.description_long}
+                    onChange={handleInputChange} />
+                </Form.Group>
+              </Col>
+
+              <Col className="mb-3" style={styles.col}>
+                <Form.Group controlId="price">
+                  <Form.Label>Retail Price</Form.Label>
+                  <Form.Control name="price"
+                    type="textarea"
+                    placeholder="Retail Price"
+                    style={{ width: '50%' }}
+                    value={formData.price}
                     onChange={handleInputChange} />
                 </Form.Group>
               </Col>
@@ -124,8 +190,11 @@ const ProductCreateEdit = () => {
                     <option>Choose...</option>
                     <option value="Boots">Boots</option>
                     <option value="Camping">Camping</option>
+                    <option value="Tents">Tents</option>
                     <option value="Climbing">Climbing</option>
-                    <option value="Clothing">Clothing</option>
+                    <option value="Jackets">Jackets</option>
+                    <option value="Pants">Pants</option>
+                    <option value="Inner Layers">Inner Layers</option>
                     <option value="Navigation">Navigation</option>
                     <option value="Sleeping Bags">Sleeping Bags</option>
                   </Form.Control>
@@ -150,17 +219,6 @@ const ProductCreateEdit = () => {
             </Row>
 
             <Row className="mb-3" style={styles.row}>
-              <Col className="mb-3" style={styles.col}>
-                <Form.Group controlId="price">
-                  <Form.Label>Retail Price</Form.Label>
-                  <Form.Control name="price"
-                    type="textarea"
-                    placeholder="Retail Price"
-                    style={{ width: '50%' }}
-                    value={formData.price}
-                    onChange={handleInputChange} />
-                </Form.Group>
-              </Col>
 
               <Col className="mb-3" style={styles.col}>
                 <Form.Group controlId="isActive">

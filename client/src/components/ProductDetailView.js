@@ -55,119 +55,81 @@ const ProductDetailView = () => {
   return (<>
     {renderReady === true && (
       <Container fluid="md" style={styles.container}>
+        <Row className="mb-3" style={styles.row}>
+          <Col style={styles.col}>
+            <h3>Product: {formData.name}</h3>
+            <h5>Description: {formData.description}</h5>
+            <p>{formData.description_long}</p>
+          </Col>
+          <Col style={styles.col}>
+            <Carousel className="d-block w-75 h-100">
+              {formData.images.map((image) => {
+                return (
+                  <Carousel.Item key={image.url}>
+                    <img
+                      className="d-block w-75 h-75"
+                      src={process.env.PUBLIC_URL + `${image.url}`}
+                      alt={image.alt_text}
+                    />
+                    <Carousel.Caption>
+                      <h3>{image.alt_text}</h3>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
+          </Col>
+        </Row>
+
+        <Row className="mb-3" style={styles.row}>
+          <Col style={styles.col}>
+            <h6>Retail Price: </h6>
+            <p>{formData.price}</p>
+          </Col>
+        </Row>
+
+        <Row className="mb-3" style={styles.row}>
+          <Col style={styles.col}>
+            <h5>Reviews: </h5>
+            {formData.reviews.map((review) => {
+              return (
+                <Row className="mb-3" style={styles.row}>
+                  <Col style={styles.col}>
+                    <p><strong>{review.user} : {`${review.num_stars} star`}</strong></p>
+                    <p>{review.text}</p>
+                  </Col>
+                </Row>
+              )
+            })}
+          </Col>
+        </Row>
+
         <Form onSubmit={handleFormSubmit}>
-          <Row className="mb-3" style={styles.row}>
-            <Form.Group className="mb-3" controlId="productName">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control
-                name="name"
-                type="text"
-                placeholder="product name"
-                value={formData.name}
-                onChange={handleInputChange} />
-            </Form.Group>
-          </Row>
-          <Row className="mb-3" style={styles.row}>
+          <Row className="mb-3">
             <Col style={styles.col}>
-              <Carousel className="d-block w-75 h-100">
-                {formData.images.map((image) => {
-                  return (
-                    <Carousel.Item key={image.url}>
-                      <img
-                        className="d-block w-25 h-25"
-                        src={process.env.PUBLIC_URL + `${image.url}`}
-                        alt={image.alt_text}
-                      />
-                      <Carousel.Caption>
-                        <h3>{image.alt_text}</h3>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                  );
-                })}
-              </Carousel>
+              <Form.Group as={Col} className="mb-3" controlId="qty">
+                <Form.Label>Quantity</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="category"
+                  value={1}
+                  onChange={handleInputChange}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col style={styles.col}>
+              <p>Buy one (or more!) today!</p>
+              <Button variant="primary" type="submit" onClick={handleFormSubmit}>
+                Add To Cart
+              </Button>
             </Col>
           </Row>
-
-          <Row className="mb-3" style={styles.row}>
-            <Col style={styles.col}>
-              <p>{formData.description}</p>
-            </Col>
-          </Row>
-          
-          <Row className="mb-3">
-            <Form.Group as={Col} className="mb-3" controlId="price">
-              <Form.Label>Retail Price</Form.Label>
-              <Form.Control name="price"
-                type="textarea"
-                placeholder="Retail Price"
-                style={{ width: '50%' }}
-                value={formData.price}
-                onChange={handleInputChange} />
-            </Form.Group>
-
-            <Form.Group as={Col} className="mb-3" controlId="qty">
-              <Form.Label>Quantity</Form.Label>
-              <Form.Control
-                as="select"
-                name="category"
-                value={1}
-                onChange={handleInputChange}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </Form.Control>
-            </Form.Group>
-          </Row>
-
-          {/* <Row className="mb-3">
-            <Form.Group className="mb-3" controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control name="description"
-                type="textarea"
-                placeholder="Description"
-                value={formData.description}
-                onChange={handleInputChange} />
-            </Form.Group>
-          </Row> */}
-
-          <Row className="mb-3">
-            <Form.Group className="mb-3" controlId="longDescription">
-              <Form.Label>Long Description</Form.Label>
-              <Form.Control name="description_long"
-                type="textarea"
-                placeholder="Long Description"
-                style={{ height: '100px' }}
-                value={formData.description_long}
-                onChange={handleInputChange} />
-            </Form.Group>
-          </Row>
-
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="code">
-              <Form.Label>Product Code</Form.Label>
-              <Form.Control name="code"
-                type="text"
-                placeholder="xxxxx-xxx-xxx"
-                value={formData.code}
-                onChange={handleInputChange} />
-            </Form.Group>
-
-            <Form.Group as={Col} controlId="sku">
-              <Form.Label>Product SKU</Form.Label>
-              <Form.Control name="sku"
-                type="text"
-                placeholder="987-123-456"
-                value={formData.sku}
-                onChange={handleInputChange} />
-            </Form.Group>
-          </Row>
-
-          <Button variant="primary" type="submit" onClick={handleFormSubmit}>
-            Add To Cart
-          </Button>
         </Form>
       </Container>
     )}

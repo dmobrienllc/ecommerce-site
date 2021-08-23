@@ -39,7 +39,7 @@ A list of technologies used within the project:
 
 Link to github repository- https://github.com/dmobrienllc/ecommerce-site
 
-Link to live site- 
+Link to live site- https://rocky-river-60304.herokuapp.com/
 
 ## FAQs
 ***

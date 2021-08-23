@@ -7,6 +7,7 @@ import ProductCategoryView from './components/ProductCategoryView';
 import ProductAdmin from './pages/ProductAdmin';
 import About from './pages/About';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import NavigationBar from './components/NavigationBar';
 import 'react-bootstrap/dist/react-bootstrap.min.js';
 import { useState, useEffect } from "react"
@@ -14,9 +15,9 @@ import defaultAppState from './state/app-state-default';
 import background from "./images/Rainier.jpeg";
 
 const App = () => {
-
   const [appState, setAppState] = useState({})
   const [renderReady, setRenderReady] = useState(false)
+
 
   //use this to check for logged in user or if the user has an
   //active shopping cart.
@@ -43,6 +44,7 @@ const App = () => {
               <Route exact path="/admin" component={ProductAdmin} />
               <Route exact path="/about" component={About} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
             </div>
           </Router>
         </AppContext.Provider>

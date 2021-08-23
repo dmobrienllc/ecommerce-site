@@ -18,26 +18,24 @@ export default function Login() {
   }
 
   function validateForm() {
-    return true; //email.length > 0 && password.length > 0;
+    return true; 
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    let userClone = { ...appCtx.appState.user, ...formData }
-
-    //redirect the user to the home page with a welcome message
-    appCtx.setAppState({ ...appCtx.appState, user: userClone })
+  async function handleSubmit(e) {
+    e.preventDefault();
 
     try {
-      const res = await getUserByEmail(userClone.email);
+      const res = await getUserByEmail(formData.email);
 
       if (!res.ok) {
         throw new Error('Error: Login.handleLoginSubmit ', res);
       }
 
       const user = await res.json();
-      console.log(user);
+
+      appCtx.setAppState({ ...appCtx.appState, user: user })
+      console.log("App Ctx User", appCtx.appState.user)
+      
       history.push("/");
     } catch (err) {
       console.error(err);

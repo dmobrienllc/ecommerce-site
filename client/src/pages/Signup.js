@@ -24,10 +24,8 @@ export default function Signup() {
     event.preventDefault();
     formData.logged_in = true;
     
-    let userClone = { ...appCtx.appState.user, ...formData }
-
     try {
-      const res = await createUser(userClone);
+      const res = await createUser(formData);
 
       if (!res.ok) {
         throw new Error('Error: Login.handleLoginSubmit ', res);
@@ -35,7 +33,7 @@ export default function Signup() {
 
       const user = await res.json();
 
-      appCtx.setAppState({ ...appCtx.appState, user: userClone })
+      appCtx.setAppState({ ...appCtx.appState, user: user })
       history.push("/");
     } catch (err) {
       console.error(err);
