@@ -31,9 +31,10 @@ export default function Login() {
         throw new Error('Error: Login.handleLoginSubmit ', res);
       }
 
-      const user = await res.json();
+      const loggedInUser = await res.json();
+      console.log(loggedInUser)
 
-      appCtx.setAppState({ ...appCtx.appState, user: user })
+      appCtx.setAppState({ ...appCtx.appState, user: loggedInUser })
       console.log("App Ctx User", appCtx.appState.user)
 
       history.push("/");

@@ -6,6 +6,8 @@ import { useAppContext } from "../utils/AppContext"
 function NavigationBar() {
     const appCtx = useAppContext()
 
+    console.log("In Navbar: ", appCtx.appState.user)
+
     return (
 
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -46,16 +48,21 @@ function NavigationBar() {
                                 <LinkContainer to="/admin">
                                     <Nav.Link>Product Admin</Nav.Link>
                                 </LinkContainer>
+                            </>
+                        )}
+
+                        {appCtx && appCtx.appState.user.first_name && (
+                            <>
                                 <LinkContainer to="/logout">
                                     <Nav.Link>Logout</Nav.Link>
                                 </LinkContainer>
+                                <Navbar.Brand href="#home">
+                                    <h3>Welcome {appCtx.appState.user.first_name}!</h3>
+                                </Navbar.Brand>
                             </>
                         )}
                     </Nav>
                 </Navbar.Collapse>
-                {appCtx && appCtx.appState.user.first_name && (
-                    <h3>Welcome {appCtx.appState.user.first_name}!</h3>
-                )}
             </Container>
         </Navbar>
     );
