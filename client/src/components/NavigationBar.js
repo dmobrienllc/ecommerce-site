@@ -41,19 +41,19 @@ function NavigationBar() {
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="/category/Climbing">Protection</NavDropdown.Item>
                         </NavDropdown>
-                    </Nav>
-                    <Nav>
-                    {appCtx && appCtx.appState.user.role === "Admin" && (
-                        <LinkContainer to="/admin">
-                            <Nav.Link>Product Admin</Nav.Link>
-                        </LinkContainer>
-                    )}
-                        <LinkContainer to="/login">
-                            <Nav.Link>Sign In</Nav.Link>
-                        </LinkContainer>
+                        {appCtx && appCtx.appState.user.role === "Admin" && (
+                            <>
+                                <LinkContainer to="/admin">
+                                    <Nav.Link>Product Admin</Nav.Link>
+                                </LinkContainer>
+                                <LinkContainer to="/logout">
+                                    <Nav.Link>Logout</Nav.Link>
+                                </LinkContainer>
+                            </>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
-                {appCtx && appCtx.appState.user.first_name  && (
+                {appCtx && appCtx.appState.user.first_name && (
                     <h3>Welcome {appCtx.appState.user.first_name}!</h3>
                 )}
             </Container>

@@ -116,7 +116,7 @@ export default function Signup() {
                     value={formData.password}
                     onChange={handleInputChange} />
                 </Form.Group>
-                <Button block size="sm" variant="dark"type="submit" disabled={!validateForm()}>
+                <Button size="sm" variant="dark"type="submit" disabled={!validateForm()}>
                   Sign Up 
                 </Button>
               </Form>

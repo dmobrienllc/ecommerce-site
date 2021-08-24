@@ -256,7 +256,7 @@ form::after {
   display: none;
 }
 
-button {
+/* button {
   display: block;
   border: none;
   cursor: pointer;
@@ -265,7 +265,7 @@ button {
   border: 1px solid #aaa;
   padding: 10px;
   background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
-}
+} */
 
 .d-none {
   display: none;
@@ -280,6 +280,7 @@ button {
   border: 1px solid #aaa;
   padding: 10px;
   background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+  color:black;
 }
 
 form > button {

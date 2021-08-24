@@ -23,7 +23,7 @@ const ProductCreateEdit = () => {
     e.preventDefault();
     let productClone = { ...appCtx.appState.product, ...formData }
 
-    //reflect the added product on the front page in a 'New Product' section
+    //TODO: reflect the added product on the front page in a 'New Product' section
     //or also reflect updates to products
     appCtx.setAppState({ ...appCtx.appState, product: productClone })
 
@@ -48,10 +48,8 @@ const ProductCreateEdit = () => {
       const product = await response.json();
 
       //clear the form for the next action
-      //setFormData({ ...formData, product: defaultAppState.product })
-      console.log("Form Data Reset")
       setFormData(defaultAppState.product)
-      console.log("Form Data: ",formData);
+
       setProductCode('')
     } catch (err) {
       console.error(err);
@@ -109,7 +107,7 @@ const ProductCreateEdit = () => {
                     onChange={handleSearchInputChange} />
                 </Form.Group>
 
-                <Button block size="md" type="submit">
+                <Button size="md" type="submit">
                   Search By Code To Edit Product
                 </Button>
               </Form>

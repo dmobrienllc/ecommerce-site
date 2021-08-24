@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Col, Row, Button, Form, Carousel } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { getProductById } from '../utils/product-api';
+import { getProductById, updateProduct } from '../utils/product-api';
 import { useAppContext } from "../utils/AppContext";
 import styles from "../components/style/styles";
+import { useHistory } from "react-router-dom";
 
 const ProductDetailView = () => {
   const [renderReady, setRenderReady] = useState(false)
+  //TODO Rename to product data as there is  no submit form involved
   const [formData, setFormData] = useState({});
+  const [reviewFormData, setReviewFormData] = useState({})
   const { productId } = useParams();
   const appCtx = useAppContext()
+  const history = useHistory();
 
   useEffect(() => {
     console.log("AppCtx", appCtx.appState.product)
+    //initialize on page entry
     setFormData(appCtx.appState.product)
 
     const getProductDetail = async () => {
@@ -50,6 +55,31 @@ const ProductDetailView = () => {
     }
   };
 
+  const handleReviewInputChange = (event) => {
+    const { name, value } = event.target;
+    setReviewFormData({ ...reviewFormData, [name]: value });
+  };
+
+  const handleReviewFormSubmit = async (event) => {
+    event.preventDefault();
+
+    formData.reviews.push(reviewFormData)
+    setFormData(formData);
+
+    try {
+      const response = await updateProduct(formData);
+
+      if (!response.ok) {
+        throw new Error('Error: ProductCreateEdit.getProductByCode ', response);
+      }
+
+      const updatedProduct = await response.json();
+      history.push(`/product/${productId}`)
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (<>
     {renderReady === true && (
       <Container fluid="md" style={styles.container}>
@@ -61,7 +91,7 @@ const ProductDetailView = () => {
             <p>Retail Price: {formData.price}</p>
           </Col>
           <Col style={styles.col}>
-            <Carousel className="d-block w-75 h-100">
+            <Carousel className="d-block w-75 h-100" variant="dark">
               {formData.images.map((image) => {
                 return (
                   <Carousel.Item key={image.url}>
@@ -94,10 +124,53 @@ const ProductDetailView = () => {
               )
             })}
           </Col>
+          <Col style={styles.col}>
+            <h5>Leave a review!</h5>
+            <Form onSubmit={handleReviewFormSubmit}>
+              <Form.Group size="lg" controlId="email">
+                <Form.Label>user:</Form.Label>
+                <Form.Control
+                  name="user"
+                  type="text"
+                  placeholder="jsmith"
+                  value={reviewFormData.user}
+                  onChange={handleReviewInputChange} />
+              </Form.Group>
+              <Form.Group size="lg" controlId="password">
+                <Form.Label>num_stars:</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="num_stars"
+                  value={reviewFormData.num_stars}
+                  onChange={handleReviewInputChange}>
+                  <option value="1">1 star</option>
+                  <option value="2">2 stars</option>
+                  <option value="3">3 stars</option>
+                  <option value="4">4 stars</option>
+                  <option value="5">5 stars</option>
+                </Form.Control>
+              </Form.Group>
+
+              <Form.Group size="lg" controlId="review">
+                <Form.Label>your review:</Form.Label>
+                <Form.Control
+                  name="text"
+                  type="textarea"
+                  placeholder="review.."
+                  wrap={true}
+                  style={{ height: '100px' }}
+                  value={reviewFormData.text}
+                  onChange={handleReviewInputChange} />
+              </Form.Group>
+              <Button variant="dark" size="md" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </Col>
         </Row>
 
-        <Form onSubmit={handleFormSubmit}>
-          <Row className="mb-3">
+        {/* <Form onSubmit={handleFormSubmit}>
+          <Row className="mb-3" style={styles.row} xs={2} md={2} lg={2}>
             <Col style={styles.col}>
               <Form.Group as={Col} className="mb-3" controlId="qty">
                 <Form.Label>Quantity</Form.Label>
@@ -122,7 +195,7 @@ const ProductDetailView = () => {
               </Button>
             </Col>
           </Row>
-        </Form>
+        </Form> */}
       </Container>
     )}
   </>

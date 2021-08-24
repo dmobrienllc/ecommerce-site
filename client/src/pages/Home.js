@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllProducts } from '../utils/product-api';
 import { Container, Col, Row, Button} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../components/style/styles";
 
 const Home = () => {
@@ -58,7 +59,7 @@ const Home = () => {
               <Row style={styles.row}>
                 <Col style={styles.col}>
                   <h3>Already a member? Login.. </h3>
-                  <Button block variant="dark" size="xs" type="submit" href="/login">
+                  <Button className="btn-primary" variant="dark" type="submit" href="/login">
                       Log in
                   </Button>
                 </Col>
@@ -66,7 +67,7 @@ const Home = () => {
               <Row style={styles.row}>
                 <Col style={styles.col}>
                   <h3>Or sign up today! </h3>
-                  <Button block variant="dark" size="xs" type="submit" color="black" href="/signup">
+                  <Button variant="dark" size="xs" type="submit" color="black" href="/signup">
                     Sign Up
                   </Button>
                 </Col>
