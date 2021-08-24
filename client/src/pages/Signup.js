@@ -50,6 +50,11 @@ export default function Signup() {
     {renderReady === true && (
       <Container className="flex" style={styles.container}>
         <Row className="mb-3" style={styles.row}>
+        <Col style={styles.col}>
+              <div className="Message">
+                <h2>Sign Up Today!</h2>
+              </div>
+            </Col>
           <Col style={styles.col}>
             <div className="Signup">
               <Form onSubmit={handleSubmit}>
@@ -111,8 +116,8 @@ export default function Signup() {
                     value={formData.password}
                     onChange={handleInputChange} />
                 </Form.Group>
-                <Button block size="sm" type="submit" disabled={!validateForm()}>
-                  Sign Up
+                <Button block size="sm" variant="dark"type="submit" disabled={!validateForm()}>
+                  Sign Up 
                 </Button>
               </Form>
             </div>

@@ -78,7 +78,7 @@ export default function Login() {
                       value={formData.password}
                       onChange={handleInputChange} />
                   </Form.Group>
-                  <Button block size="md" type="submit" disabled={!validateForm()}>
+                  <Button block variant="dark" size="md" type="submit" disabled={!validateForm()}>
                     Login
                   </Button>
                 </Form>
