@@ -47,6 +47,7 @@ export default function Signup() {
 
   return (
     <>
+    {renderReady === true && (
       <Container className="flex" style={styles.container}>
         <Row className="mb-3" style={styles.row}>
           <Col style={styles.col}>
@@ -118,6 +119,7 @@ export default function Signup() {
           </Col>
         </Row>
       </Container>
+    )}
     </>
   );
 }

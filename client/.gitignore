@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# temp test files
+/public/images/tents/akto-dummy-vals.txt
+
 # production
 /build
 

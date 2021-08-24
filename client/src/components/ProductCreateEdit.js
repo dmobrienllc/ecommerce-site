@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react"
 import { useAppContext } from "../utils/AppContext"
 import { Container, Col, Row, Button, Form } from 'react-bootstrap';
-import { createProduct,getProductByCode } from '../utils/product-api';
+import { createProduct,updateProduct,getProductByCode } from '../utils/product-api';
 import styles from "../components/style/styles";
 import defaultAppState from '../state/app-state-default';
 
@@ -12,7 +12,7 @@ const ProductCreateEdit = () => {
   //should be set by the app context
   const [formData, setFormData] = useState([])
   const [renderReady, setRenderReady] = useState(false)
-  const [newProductName, setNewProductName] = useState('')
+  //const [newProductName, setNewProductName] = useState('')
   const [productCode,setProductCode] = useState('')
 
   const handleInputChange = (e) => {
@@ -28,15 +28,31 @@ const ProductCreateEdit = () => {
     appCtx.setAppState({ ...appCtx.appState, product: productClone })
 
     try {
-      const res = await createProduct(productClone);
-
-      if (!res.ok) {
-        throw new Error('Error: ProductCreateEdit.createProduct ', res);
+      let response;
+      //should really be using the reducer pattern here but did not
+      //have time to implement; this would not fly in the real world,
+      //I get it... :-(
+      if(productCode.length > 0){
+        console.log("Updating product withh code: ",productCode)
+        response = await updateProduct(productClone);
+      }else{
+        console.log("CreateProduct")
+        response = await createProduct(productClone);
       }
 
-      const product = await res.json();
+      if (!response.ok) {
+        throw new Error('Error: ProductCreateEdit.createProduct ', response);
+      }
 
-      setFormData({ ...formData, product: defaultAppState.product })
+      //TODO: Pass this to modal to present to user.
+      const product = await response.json();
+
+      //clear the form for the next action
+      //setFormData({ ...formData, product: defaultAppState.product })
+      console.log("Form Data Reset")
+      setFormData(defaultAppState.product)
+      console.log("Form Data: ",formData);
+      setProductCode('')
     } catch (err) {
       console.error(err);
     }
@@ -57,7 +73,6 @@ const ProductCreateEdit = () => {
       console.log("Product to Edit: ",productToEdit)
       setFormData(productToEdit)
 
-      setProductCode('')
     } catch (err) {
       console.error(err);
     }
@@ -69,8 +84,7 @@ const ProductCreateEdit = () => {
   }
 
   useEffect(() => {
-    console.log("In ProductCreateEdit.useEffect, appCtx", appCtx.appState.product)
-    setFormData(appCtx.appState.product)
+    setFormData(defaultAppState.product)
     setRenderReady(true)
   }, [])
 

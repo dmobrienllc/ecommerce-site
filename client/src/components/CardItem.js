@@ -18,7 +18,7 @@ export default function CardItem(props) {
             <Card.Body>
                 <Col>
                     <Row>
-                        <Card.Link href={props.productDetailUrl}>Check out {props.title}</Card.Link>
+                        <Card.Link href={props.productDetailUrl}>Check out the {props.title}</Card.Link>
                     </Row>
                 </Col>
             </Card.Body>

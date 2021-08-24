@@ -18,7 +18,7 @@ export default function Login() {
   }
 
   function validateForm() {
-    return true; 
+    return true;
   }
 
   async function handleSubmit(e) {
@@ -35,7 +35,7 @@ export default function Login() {
 
       appCtx.setAppState({ ...appCtx.appState, user: user })
       console.log("App Ctx User", appCtx.appState.user)
-      
+
       history.push("/");
     } catch (err) {
       console.error(err);
@@ -49,42 +49,44 @@ export default function Login() {
 
   return (
     <>
-      <Container className="flex" style={styles.container}>
-        <Row className="mb-3" style={styles.row}>
-          <Col style={styles.col}>
-            <div className="Message">
-              <h2>This should occupy half the space.</h2>
-            </div>
-          </Col>
-          <Col style={styles.col}>
-            <div className="Login">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg" controlId="email">
-                  <Form.Label>email:</Form.Label>
-                  <Form.Control
-                    name="email"
-                    type="email"
-                    placeholder="jsmith@email.com"
-                    value={formData.email}
-                    onChange={handleInputChange} />
-                </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                  <Form.Label>password:</Form.Label>
-                  <Form.Control
-                    name="password"
-                    type="password"
-                    placeholder="xxxxxxxxxxxx"
-                    value={formData.password}
-                    onChange={handleInputChange} />
-                </Form.Group>
-                <Button block size="md" type="submit" disabled={!validateForm()}>
-                  Login
-                </Button>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      {renderReady === true && (
+        <Container className="flex" style={styles.container}>
+          <Row className="mb-3" style={styles.row}>
+            <Col style={styles.col}>
+              <div className="Message">
+                <h2>Login User....</h2>
+              </div>
+            </Col>
+            <Col style={styles.col}>
+              <div className="Login">
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group size="lg" controlId="email">
+                    <Form.Label>email:</Form.Label>
+                    <Form.Control
+                      name="email"
+                      type="email"
+                      placeholder="jsmith@email.com"
+                      value={formData.email}
+                      onChange={handleInputChange} />
+                  </Form.Group>
+                  <Form.Group size="lg" controlId="password">
+                    <Form.Label>password:</Form.Label>
+                    <Form.Control
+                      name="password"
+                      type="password"
+                      placeholder="xxxxxxxxxxxx"
+                      value={formData.password}
+                      onChange={handleInputChange} />
+                  </Form.Group>
+                  <Button block size="md" type="submit" disabled={!validateForm()}>
+                    Login
+                  </Button>
+                </Form>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 }

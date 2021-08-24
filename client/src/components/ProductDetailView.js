@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Col, Row, Button, Form, Carousel } from 'react-bootstrap';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getProductById } from '../utils/product-api';
 import { useAppContext } from "../utils/AppContext";
 import styles from "../components/style/styles";
@@ -10,8 +10,6 @@ const ProductDetailView = () => {
   const [formData, setFormData] = useState({});
   const { productId } = useParams();
   const appCtx = useAppContext()
-
-  let history = useHistory();
 
   useEffect(() => {
     console.log("AppCtx", appCtx.appState.product)
@@ -60,6 +58,7 @@ const ProductDetailView = () => {
             <h3>Product: {formData.name}</h3>
             <h5>Description: {formData.description}</h5>
             <p>{formData.description_long}</p>
+            <p>Retail Price: {formData.price}</p>
           </Col>
           <Col style={styles.col}>
             <Carousel className="d-block w-75 h-100">
@@ -83,17 +82,10 @@ const ProductDetailView = () => {
 
         <Row className="mb-3" style={styles.row}>
           <Col style={styles.col}>
-            <h6>Retail Price: </h6>
-            <p>{formData.price}</p>
-          </Col>
-        </Row>
-
-        <Row className="mb-3" style={styles.row}>
-          <Col style={styles.col}>
             <h5>Reviews: </h5>
             {formData.reviews.map((review) => {
               return (
-                <Row className="mb-3" style={styles.row}>
+                <Row className="mb-3" style={styles.row} key={review.user}>
                   <Col style={styles.col}>
                     <p><strong>{review.user} : {`${review.num_stars} star`}</strong></p>
                     <p>{review.text}</p>

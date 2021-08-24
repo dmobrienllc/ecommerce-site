@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react"
-import { useAppContext } from "../utils/AppContext"
 import ProductCreateEdit from "../components/ProductCreateEdit";
-import { Container, Col, Row, Button, Form } from 'react-bootstrap';
+import { Container, Col, Row} from 'react-bootstrap';
 import styles from "../components/style/styles";
 
 const ProductAdmin = (props) => {
-  const appCtx = useAppContext()
   const [renderReady, setRenderReady] = useState(false)
 
   useEffect(() => {
